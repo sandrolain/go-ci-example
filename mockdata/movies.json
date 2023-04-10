@@ -1,0 +1,37 @@
+[
+  {
+    "id": "40f91734-4dde-5afa-8630-f8595b06d8df",
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "director": "Frank Darabont",
+    "genre": "Drama"
+  },
+  {
+    "id": "057c695e-94c8-547e-918f-26d8089e303a",
+    "title": "The Godfather",
+    "year": 1972,
+    "director": "Francis Ford Coppola",
+    "genre": "Crime"
+  },
+  {
+    "id": "f2b5d84c-8073-5549-a53f-e32243d47702",
+    "title": "The Dark Knight",
+    "year": 2008,
+    "director": "Christopher Nolan",
+    "genre": "Action"
+  },
+  {
+    "id": "aa1c2a98-cad1-577a-8bd8-6fa3d335744e",
+    "title": "The Godfather: Part II",
+    "year": 1974,
+    "director": "Francis Ford Coppola",
+    "genre": "Crime"
+  },
+  {
+    "id": "1b4eb1fa-cb69-52db-9604-567b2cd928cf",
+    "title": "2 Angry Men",
+    "year": 1957,
+    "director": "Sidney Lumet",
+    "genre": "Drama"
+  }
+]
