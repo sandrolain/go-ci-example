@@ -40,18 +40,21 @@ func TestMain(m *testing.M) {
 	}
 
 	// pulls an image, creates a container based on it and runs it
-	resource, err := pool.Run("mongo", "latest", []string{
-		"MONGO_INITDB_ROOT_USERNAME=" + MONGODB_USERNAME,
-		"MONGO_INITDB_ROOT_PASSWORD=" + MONGODB_PASSWORD,
+	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
+		Name:       "mongo",
+		Repository: "mongo",
+		Tag:        "latest",
+		Env: []string{
+			"MONGO_INITDB_ROOT_USERNAME=" + MONGODB_USERNAME,
+			"MONGO_INITDB_ROOT_PASSWORD=" + MONGODB_PASSWORD,
+		},
+		NetworkID: os.Getenv("NETWORK_ID"),
 	})
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
-	host := os.Getenv("DOCKER_HOSTNAME")
-	if host == "" {
-		host = "localhost"
-	}
+	host := "mongo"
 
 	mongodbUri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, host, resource.GetPort("27017/tcp"))
 	fmt.Printf("mongodb uri: '%s'\n", mongodbUri)
