@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/ory/dockertest/v3"
+	"github.com/ory/dockertest/v3/docker"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -52,6 +53,12 @@ func TestMain(m *testing.M) {
 			"MONGO_INITDB_ROOT_PASSWORD=" + MONGODB_PASSWORD,
 		},
 		NetworkID: networkId,
+	}, func(config *docker.HostConfig) {
+		// set AutoRemove to true so that stopped container goes away by itself
+		config.AutoRemove = true
+		config.RestartPolicy = docker.RestartPolicy{
+			Name: "no",
+		}
 	})
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
