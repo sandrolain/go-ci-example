@@ -48,7 +48,12 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
-	mongodbUri = fmt.Sprintf("mongodb://%s:%s@host.docker.internal:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, resource.GetPort("27017/tcp"))
+	host := os.Getenv("DOCKER_HOSTNAME")
+	if host == "" {
+		host = "localhost"
+	}
+
+	mongodbUri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, host, resource.GetPort("27017/tcp"))
 	fmt.Printf("mongodb uri: '%s'\n", mongodbUri)
 
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
