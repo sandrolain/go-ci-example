@@ -41,7 +41,7 @@ func TestMain(m *testing.M) {
 
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
-		Name:       "mongo",
+		Hostname:   "mongo",
 		Repository: "mongo",
 		Tag:        "latest",
 		Env: []string{
