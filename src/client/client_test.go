@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/ory/dockertest"
+	"github.com/ory/dockertest/v3"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -39,6 +39,9 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not connect to Docker: %s", err)
 	}
 
+	networkId := os.Getenv("NETWORK_ID")
+	fmt.Printf("network id: %s", networkId)
+
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
 		Hostname:   "mongo",
@@ -48,7 +51,7 @@ func TestMain(m *testing.M) {
 			"MONGO_INITDB_ROOT_USERNAME=" + MONGODB_USERNAME,
 			"MONGO_INITDB_ROOT_PASSWORD=" + MONGODB_PASSWORD,
 		},
-		NetworkID: os.Getenv("NETWORK_ID"),
+		NetworkID: networkId,
 	})
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
