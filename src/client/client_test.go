@@ -40,7 +40,7 @@ func TestMain(m *testing.M) {
 	}
 
 	networkId := os.Getenv("NETWORK_ID")
-	fmt.Printf("network id: %s", networkId)
+	fmt.Printf("network id: %s\n", networkId)
 
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
@@ -57,7 +57,10 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
-	host := "mongo"
+	host := "localhost"
+	if networkId != "" {
+		host = "mongo"
+	}
 
 	mongodbUri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, host, resource.GetPort("27017/tcp"))
 	fmt.Printf("mongodb uri: '%s'\n", mongodbUri)
