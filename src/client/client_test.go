@@ -66,11 +66,15 @@ func TestMain(m *testing.M) {
 
 	host := "localhost"
 	if networkId != "" {
-		host = "mongo"
+		host = resource.GetBoundIP("27017/tcp")
 	}
 
 	mongodbUri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, host, resource.GetPort("27017/tcp"))
 	fmt.Printf("mongodb uri: '%s'\n", mongodbUri)
+
+	resource.Expire(120)
+
+	defer pool.Purge(resource)
 
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
 	if err := pool.Retry(func() error {
@@ -83,10 +87,6 @@ func TestMain(m *testing.M) {
 	}); err != nil {
 		log.Fatalf("Could not connect to database: %s", err)
 	}
-
-	resource.Expire(120)
-
-	defer pool.Purge(resource)
 
 	code := m.Run()
 
