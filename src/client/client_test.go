@@ -43,6 +43,10 @@ func TestMain(m *testing.M) {
 	networkId := os.Getenv("NETWORK_ID")
 	fmt.Printf("network id: %s\n", networkId)
 
+	if networkId != "" {
+		pool.Client.ConnectNetwork(networkId, docker.NetworkConnectionOptions{})
+	}
+
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
 		Hostname:   "mongo",
