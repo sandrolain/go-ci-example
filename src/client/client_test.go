@@ -41,7 +41,9 @@ func TestMain(m *testing.M) {
 	}
 
 	networkId := os.Getenv("NETWORK_ID")
+	networkName := os.Getenv("NETWORK_NAME")
 	fmt.Printf("network id: %s\n", networkId)
+	fmt.Printf("network name: %s\n", networkName)
 
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
@@ -67,7 +69,7 @@ func TestMain(m *testing.M) {
 	host := "localhost"
 	if networkId != "" {
 		host = resource.GetIPInNetwork(&dockertest.Network{
-			Network: &docker.Network{ID: networkId},
+			Network: &docker.Network{Name: networkName},
 		})
 	}
 
