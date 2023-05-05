@@ -85,6 +85,7 @@ func TestMain(m *testing.M) {
 		clientOptions := options.Client().ApplyURI(mongodbUri)
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
+			fmt.Printf("mongodb conn err: %v\n", err)
 			return err
 		}
 		return client.Ping(context.TODO(), nil)
