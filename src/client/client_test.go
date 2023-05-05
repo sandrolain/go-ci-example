@@ -66,7 +66,9 @@ func TestMain(m *testing.M) {
 
 	host := "localhost"
 	if networkId != "" {
-		host = resource.GetBoundIP("27017/tcp")
+		host = resource.GetIPInNetwork(&dockertest.Network{
+			Network: &docker.Network{ID: networkId},
+		})
 	}
 
 	mongodbUri = fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin", MONGODB_USERNAME, MONGODB_PASSWORD, host, resource.GetPort("27017/tcp"))
